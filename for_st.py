@@ -8,6 +8,8 @@ files = st.file_uploader("Upload your file", type=['docx'], accept_multiple_file
 def descr_merge(df, block):
     return ', '.join(df[df['block'] == block['block']]['description'])
 
+
+
 if files:
     full_dataframe = pd.concat([information_from_file(file) for file in files]).reset_index(drop=True)
     gr = st.checkbox('Сгруппировать?', value=False)
@@ -16,4 +18,11 @@ if files:
         f_data = f_data.groupby(['block']).sum().reset_index()[['block', 'quantity']]
         f_data['description'] = f_data.apply(lambda x:descr_merge(full_dataframe, x), axis=1)
     st.dataframe(f_data, use_container_width=True)
+    for_check =  full_dataframe.copy()
+    for_check['check'] = for_check['block'] + ' : ' + for_check['quantity'].astype(str) + " шт."
+    pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: ',<br>'.join(x)).reset_index()
+    with st.expander("📋 Список всех блоков"):
+        for i in range(pivot_check.shape[0]):
+            st.markdown("<b>" + pivot_check.iloc[i, 0] + "</b> :<br>" + pivot_check.iloc[i, 1] + "<br><br>", unsafe_allow_html=True)
+    
     st.download_button(label='💾 Скачать файл для выгрузки в КП',data=to_excel(f_data), file_name= 'для кп.xls')
