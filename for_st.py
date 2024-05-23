@@ -8,8 +8,6 @@ files = st.file_uploader("Upload your file", type=['docx'], accept_multiple_file
 def descr_merge(df, block):
     return ', '.join(df[df['block'] == block['block']]['description'])
 
-
-
 if files:
     full_dataframe = pd.concat([information_from_file(file) for file in files]).reset_index(drop=True)
     gr = st.checkbox('Сгруппировать?', value=False)
