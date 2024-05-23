@@ -46,6 +46,7 @@ def information_from_file(uploaded_file):
     extra_blocks = [item[0] for item in list(extra_blocks) if item]
     main_correct_blocks = list(zip(list(map(lambda x: x.split()[0], main_blocks)), main_indexes))
     main_correct_blocks = list(map(lambda x: ' '.join(x), main_correct_blocks))
+    main_correct_blocks = [item+"-G4" if item.startswith('Фильтр Канал-ФКК-') and len(item)==20 else item for item in main_correct_blocks]
     canal_dataframe['block'] = main_correct_blocks
     canal_dataframe['quantity'] = 1
     extra_correct_blocks = [("Хомут " + extra[0] if 'МК' in extra[0] else "Адаптер "+ extra[0] if extra[0].startswith('К-') else "Гибкая вставка " + extra[0], int(extra[1])) for extra in extra_blocks]
