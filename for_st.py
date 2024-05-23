@@ -22,7 +22,10 @@ if files:
     for_check['check'] = for_check['block'] + ' : ' + for_check['quantity'].astype(str) + " шт."
     pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: ',<br>'.join(x)).reset_index()
     with st.expander("📋 Список всех блоков"):
+        html_text = ""
         for i in range(pivot_check.shape[0]):
-            st.markdown("<b>" + pivot_check.iloc[i, 0] + "</b> :<br>" + pivot_check.iloc[i, 1] + "<br><br>", unsafe_allow_html=True)
-    
+            row = "<b>" + pivot_check.iloc[i, 0] + "</b> :<br>" + pivot_check.iloc[i, 1] + "<br><br>"
+            st.markdown(row, unsafe_allow_html=True)
+            html_text += row
+    st.download_button(label='💾 Скачать файл для проверки',data=html_text, file_name= 'проверка.html')
     st.download_button(label='💾 Скачать файл для выгрузки в КП',data=to_excel(f_data), file_name= 'для кп.xls')
