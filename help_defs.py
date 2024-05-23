@@ -23,7 +23,6 @@ def sashQUA(main_system_name:str, the_mask = r'\d?[A-Za-zА-Яа-яЁё]\D?\D?\D
             all_system_names += system_name_all
     return len(all_system_names)
 
-
 def information_from_file(uploaded_file):
     canal_dataframe = pd.DataFrame()
     info_file = [item for item in process(uploaded_file).split('\n') if item]
