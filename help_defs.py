@@ -63,7 +63,7 @@ def information_from_file(uploaded_file):
 def to_excel(df, HEADER=False, START=1):
     output = io.BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    pd.DataFrame(df).to_excel(writer, index=False, header=HEADER,startrow=START, startcol=START, sheet_name='Sheet1')
+    df.to_excel(writer, index=False, header=HEADER,startrow=START, startcol=START, sheet_name='Sheet1')
     workbook = writer.book
     worksheet = writer.sheets['Sheet1']
     format1 = workbook.add_format({'num_format': '0.00'})
