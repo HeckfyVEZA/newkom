@@ -8,8 +8,7 @@ from data_freq import frequency_manager
 def sashQUA(main_system_name:str, the_mask = r'\d?[A-Za-zА-Яа-яЁё]\D?\D?\D?\D?\S?\S?\S?\S?\d{1,}[А-Яа-яЁё]?'):
     all_system_names = []
     for system_name in main_system_name.replace("-", " - ").split(','):
-        system_name = system_name.strip()
-        system_name_all = re.findall(the_mask, system_name, re.IGNORECASE)
+        system_name_all = re.findall(the_mask, system_name.strip(), re.IGNORECASE)
         system_name_all = system_name_all if system_name_all else [main_system_name]
         if len(system_name_all) > 1:
             all_positions_in_system_name = tuple(tuple(filter(None, re.findall(r'(\D?|\d+)', sys_name, re.IGNORECASE))) for sys_name in system_name_all)
