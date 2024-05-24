@@ -19,7 +19,7 @@ if files:
     for_check =  full_dataframe.copy()
     for_check['check'] = for_check['block'] + ' : ' + for_check['quantity'].astype(str) + " шт."
     pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: ',<br>'.join(x)).reset_index()
-    html_text = "<br>".join(["<b>" + pivot_check.iloc[i, 0] + "</b> :<br>" + pivot_check.iloc[i, 1] + "<br>" for i in range(pivot_check.shape[0])])
+    html_text = "<br>".join(["<b>" + pivot_check.iloc[i, 0] + "</b> :<br>" + pivot_check.iloc[i, 1] + "<br>" for i in range(pivot_check.shape[0])]).replace("*", "\*")
     with st.expander("📋 Список всех блоков"):
         st.markdown(html_text, unsafe_allow_html=True)
     st.download_button(label='💾 Скачать файл для проверки', data=html_text, file_name='проверка.html')
