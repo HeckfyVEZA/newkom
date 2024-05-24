@@ -18,7 +18,7 @@ if files:
     st.dataframe(f_data, use_container_width=True)
     for_check = full_dataframe.copy()
     for_check['check'] = "<u>" + for_check['block'] + '</u> : <b>' + for_check['quantity'].astype(str) + " шт.</b>"
-    pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: ',<br>'.join(x)).reset_index()
+    pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: '<br>'.join(x)).reset_index()
     html_text = "<br>".join(["<b>" + pivot_check.iloc[i, 0] + "</b> :<br>" + pivot_check.iloc[i, 1] + "<br>" for i in range(pivot_check.shape[0])])
     with st.expander("📋 Список всех блоков"):
         st.markdown(html_text.replace("*", "\*"), unsafe_allow_html=True)
