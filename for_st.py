@@ -17,9 +17,9 @@ if files:
         f_data['description'] = f_data.apply(lambda x:descr_merge(full_dataframe, x), axis=1)
     st.dataframe(f_data, use_container_width=True)
     for_check = full_dataframe.copy()
-    for_check['check'] = "<div class='blocks' style='width: 100%; display: flex; justify-content: center; align-items: start'><u>" + for_check['block'] + '</u> : <b>' + for_check['quantity'].astype(str) + " шт.</b></div>"
+    for_check['check'] = "<div class='blocks' style='width: 100%; display: flex; text-align: left'><u>" + for_check['block'] + '</u> : <b>' + for_check['quantity'].astype(str) + " шт.</b></div>"
     pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: '<br>'.join(x)).reset_index()
-    html_text = "<br>".join(["<div class='canal-installation'><div class='system' style='width: 100%; display: flex; justify-content: center; align-items: start'><b>" + pivot_check.iloc[i, 0] + "</div></b> :<br>" + pivot_check.iloc[i, 1] + "<br></div>" for i in range(pivot_check.shape[0])])
+    html_text = "<br>".join(["<div class='canal-installation' style='text-align: center;'><div class='system' style='width: 100%; display: flex; text-align: left'><b>" + pivot_check.iloc[i, 0] + "</div></b> :<br>" + pivot_check.iloc[i, 1] + "<br></div>" for i in range(pivot_check.shape[0])])
     with st.expander("📋 Список всех блоков"):
         st.markdown(html_text.replace("*", "\*"), unsafe_allow_html=True)
     st.download_button(label='💾 Скачать файл для проверки', data=html_text, file_name='проверка.html')
