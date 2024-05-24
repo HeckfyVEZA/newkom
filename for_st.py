@@ -17,7 +17,7 @@ if files:
         f_data['description'] = f_data.apply(lambda x:descr_merge(full_dataframe, x), axis=1)
     st.dataframe(f_data, use_container_width=True)
     for_check = full_dataframe.copy()
-    for_check['check'] = "<div class='text-center' style='width: 100%; height: 100%; display: flex; justify-content: center; align-items: center'><u>" + for_check['block'] + '</u> : <b>' + for_check['quantity'].astype(str) + " шт.</b></div>"
+    for_check['check'] = "<div class='text-center' style='width: 100%; height: 100%; display: flex; justify-content: start; align-items: center'><u>" + for_check['block'] + '</u> : <b>' + for_check['quantity'].astype(str) + " шт.</b></div>"
     pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: '<br>'.join(x)).reset_index()
     html_text = "<br>".join(["<b>" + pivot_check.iloc[i, 0] + "</b> :<br>" + pivot_check.iloc[i, 1] + "<br>" for i in range(pivot_check.shape[0])])
     with st.expander("📋 Список всех блоков"):
