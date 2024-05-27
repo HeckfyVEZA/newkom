@@ -22,5 +22,5 @@ if files:
     html_text = "<br>".join(["<div class='canal-installation' style='text-align: center;'><div class='system' style='width: 100%; display: flex; text-align: left'><b>" + pivot_check.iloc[i, 0] + "</div></b> :<br>" + pivot_check.iloc[i, 1] + "<br></div>" for i in range(pivot_check.shape[0])])
     with st.expander("📋 Список всех блоков"):
         st.markdown(html_text.replace("*", "\*"), unsafe_allow_html=True)
-    st.download_button(label='💾 Скачать файл для проверки', data=html_text, file_name='проверка.html')
+    st.download_button(label='💾 Скачать файл для проверки (открывается как страничка в браузере)', data=html_text, file_name='проверка.html')
     st.download_button(label='💾 Скачать файл для выгрузки в КП', data=to_excel(f_data), file_name='для кп.xls')
