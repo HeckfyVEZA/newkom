@@ -67,6 +67,10 @@ def to_excel(df, HEADER=False, START=1):
     workbook = writer.book
     worksheet = writer.sheets['Sheet1']
     format1 = workbook.add_format({'num_format': '0.00'})
-    worksheet.set_column('A:A', None, format1)
+    worksheet.set_column('B:B', None, format1)
+    # worksheet.set_column('A:A', None, format1)
+    for col_num, value in enumerate(df.columns):
+        column_length = max(df[value].astype(str).map(len).max(), len(str(value)))
+        worksheet.set_column(col_num+START, col_num+START, int(column_length * 1.2))
     writer.close()
     return output.getvalue()
