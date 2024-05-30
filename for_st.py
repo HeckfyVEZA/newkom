@@ -26,10 +26,7 @@ if files:
             data_fr += [item]
         data_fr.append(['', ''])
     check_excel = pd.DataFrame(data_fr)
-    for_check['check'] = "<div class='blocks' style='width: 100%; display: flex; text-align: left'><u>" + for_check['block'] + '</u> : <b>' + for_check['quantity'].astype(str) + " шт.</b></div>"
-    pivot_check = for_check.pivot_table(index='description', values=['check'], aggfunc=lambda x: '<br>'.join(x)).reset_index()
-    html_text = "<br>".join(["<div class='canal-installation' style='text-align: center;'><div class='system' style='width: 100%; display: flex; text-align: left'><b>" + pivot_check.iloc[i, 0] + "</div></b> :<br>" + pivot_check.iloc[i, 1] + "<br></div>" for i in range(pivot_check.shape[0])])
     with st.expander("📋 Список всех блоков"):
-        st.markdown(html_text.replace("*", "\*"), unsafe_allow_html=True)
+        st.dataframe(check_excel, use_container_width=True)
     st.download_button(label='💾 Скачать файл для проверки', data=to_excel(check_excel, START=0), file_name='проверка.xlsx')
     st.download_button(label='💾 Скачать файл для выгрузки в КП', data=to_excel(f_data), file_name='для кп.xls')
