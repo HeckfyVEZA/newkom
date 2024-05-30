@@ -54,10 +54,11 @@ def information_from_file(uploaded_file):
     description = re.findall(r'Название: (.+) Заказчик:', ' '.join(info_file))[0]
     multiply_coefficient = sashQUA(description)
     canal_dataframe['description'] = description
-    canal_dataframe['quantity'] *= multiply_coefficient
+    
     for item in corregs:
         cor = [item, 1, description]
         canal_dataframe.loc[len(canal_dataframe.index)] = cor
+    canal_dataframe['quantity'] *= multiply_coefficient
     return canal_dataframe
 
 def to_excel(df, HEADER=False, START=1):

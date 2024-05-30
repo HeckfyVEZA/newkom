@@ -21,7 +21,8 @@ def pkt_heat_calculation(
         heat_flow=None,
         **kwargs
     ):
-    del locals()['kwargs']
+    # del locals()['kwargs']
+    
     delta_T = abs(
         (temperature_inlet_supply + temperature_outlet_supply) / 2 - (temperature_inlet_exhaust + temperature_outlet_exhaust) / 2
         )
@@ -40,12 +41,26 @@ def pkt_heat_calculation(
     required_heat_exhaust = exhaust_flow_rate * heat_capacity * air_dencity_exhaust * abs(temperature_outlet_exhaust - temperature_inlet_exhaust) / 3600
     temperature_outlet_supply = temperature_inlet_supply + ((3600 * heat_flow) / (heat_capacity * air_dencity_supply * supply_flow_rate))
     temperature_outlet_exhaust = temperature_inlet_exhaust - ((3600 * heat_flow) / (heat_capacity * air_dencity_exhaust * exhaust_flow_rate))
+    # temperature_outlet_exhaust = (temperature_inlet_exhaust - (supply_flow_rate / exhaust_flow_rate) * (temperature_outlet_supply - temperature_inlet_supply)) - 5
     return locals()
 def pkt_calculation(
+        temperature_outlet_supply,
+        temperature_outlet_exhaust,
+        temperature_inlet_supply,
+        temperature_inlet_exhaust,
+        supply_flow_rate,
+        exhaust_flow_rate,
+        lamel_width,
+        lamel_length,
+        quantity_of_lamels,
+        distance_between_lamels,
         **kwargs,
     ):
+    print(temperature_outlet_exhaust)
+    temperature_outlet_exhaust = (temperature_inlet_exhaust - (supply_flow_rate / exhaust_flow_rate) * (temperature_outlet_supply - temperature_inlet_supply)) - 5
+    print(temperature_outlet_exhaust)
     calc = pkt_heat_calculation(
-            **kwargs
+            **locals()
     )
     count = 0
     while (
