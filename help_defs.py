@@ -33,7 +33,7 @@ def information_from_file(uploaded_file):
     corregs = []
     for item in infofreq:
         p, v, c, must = item
-        if must == 'да':
+        if must.lower() == 'да':
             corregs += [frequency_manager.query('voltage==@v and current>@c and power >= @p').iloc[0]['name']]
     main_blocks = map(lambda item: re.findall(r'\d{1,2}\. (.*)', item), info_file)
     main_blocks = [item[0] for item in list(main_blocks) if item]
