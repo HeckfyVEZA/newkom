@@ -5,6 +5,8 @@ from help_defs import information_from_file, to_excel
 
 files = st.file_uploader("Upload your file", type=['docx'], accept_multiple_files=True)
 
+
+
 def descr_merge(df, block):
     return ', '.join(df[df['block'] == block['block']]['description'])
 
