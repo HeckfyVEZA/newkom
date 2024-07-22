@@ -32,7 +32,10 @@ def information_from_file(uploaded_file):
     infofreq = [list(map(lambda x: float(x.replace(',', '.')), item[0])) for item in list(infofreq) if item]
     freg_must_be = list(map(lambda item: re.findall(r"Регулятор оборотов двигателя .+ вентилятора: (.{2,3})", item), info_file))
     freg_must_be = [item for item in list(freg_must_be) if item]
-    infofreq = [infofreq[i] + [freg_must_be[i][0]] for i in range(len(infofreq))]
+    try:
+        infofreq = [infofreq[i] + [freg_must_be[i][0]] for i in range(len(infofreq))]
+    except:
+        pass
     corregs = []
     for item in infofreq:
         p, v, c, must = item
