@@ -38,9 +38,13 @@ def information_from_file(uploaded_file):
         pass
     corregs = []
     for item in infofreq:
-        p, v, c, must = item
-        if must.lower() == 'да':
-            corregs += [frequency_manager.query('voltage==@v and current>@c and power >= @p').iloc[0]['name']]
+        try:
+            p, v, c, must = item
+            
+            if must.lower() == 'да':
+                corregs += [frequency_manager.query('voltage==@v and current>@c and power >= @p').iloc[0]['name']]
+        except:
+            pass
     main_blocks = map(lambda item: re.findall(r'\d{1,2}\. (.*)', item), info_file)
     main_blocks = [item[0] for item in list(main_blocks) if item]
     main_indexes = map(lambda item: re.findall(r'Индекс: ?+(.+)[;, ]?', item), info_file)
