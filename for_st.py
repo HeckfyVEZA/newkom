@@ -11,7 +11,14 @@ def descr_merge(df, block):
     return ', '.join(df[df['block'] == block['block']]['description'])
 
 if files:
-    full_dataframe = pd.concat([information_from_file(file) for file in files]).reset_index(drop=True)
+    all_files_info = []
+    for file in files:
+        current_info = information_from_file(file)
+        if current_info.empty:
+            st.write("Error in file: ", file.name)
+        else:
+            all_files_info.append(current_info)
+    full_dataframe = pd.concat(all_files_info).reset_index(drop=True)
     gr = st.checkbox('Сгруппировать?', value=False)
     f_data = full_dataframe.copy()
     if gr:
