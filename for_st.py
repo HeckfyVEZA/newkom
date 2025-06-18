@@ -13,7 +13,7 @@ def descr_merge(df, block):
 if files:
     all_files_info = []
     for file in files:
-        if file.name.split(".")[1] =="pdf":
+        if file.name.split(".")[-1] =="pdf":
             current_info = pdf_information_from_file(file)
         else:
             current_info = information_from_file(file)
