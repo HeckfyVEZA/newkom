@@ -4,6 +4,7 @@ import re
 import io
 from itertools import dropwhile, takewhile
 from data_freq import frequency_manager
+import pdfplumber
 
 def sashQUA(main_system_name:str, the_mask = r'\d?[A-Za-zА-Яа-яЁё]\D?\D?\D?\D?\S?\S?\S?\S?\d{1,}[А-Яа-яЁё]?'):
     try:
@@ -73,6 +74,54 @@ def information_from_file(uploaded_file):
         return canal_dataframe
     except:
         return pd.DataFrame()
+
+def pdf_information_from_file(uploaded_file):
+    all_text = ""
+
+    with pdfplumber.open(uploaded_file) as pdf:
+        for page in pdf.pages:
+            text = page.extract_text()
+            if "ЛИСТ ТЕХНИЧЕСКОГО ПОДБОРА" in text:
+                texts = text
+                texts = texts.split("\n")[3].split()[3:-2][0]
+            all_text += f"\n{text}"
+    all_text = all_text.split("\n")
+    all_text = [
+        item.replace("Дополнительное оборудование ", "") for item in all_text if re.findall(r"(\w* Канал.*)", item) 
+        or re.findall(r"(\w* КЛАБ.*)", item)
+        or (re.findall(r"(\w* ВЕКТОР.*)", item) and "шт." in item)
+        ]
+    all_test = []
+    for item in all_text:
+        if not "Кассета фильтрующая" in item:
+            all_test.append(item)
+        else:
+            if "шт." in item:
+                all_test.append(item)
+    correct_text = []
+    for item in all_test:
+        if "Гибкая вставка" in item or "Кассета фильтрующая" in item or "Каплеуловитель" in item or "Узел" in item:
+            correct_text.append(item)
+        elif "водяной" in item or "фреоновый" in item or "обратный" in item or "воздушный" in item:
+            correct_text.append(" ".join(item.split()[2:]))
+        else:
+            correct_text.append(" ".join(item.split()[1:]))
+    correct_with_quantity = []
+    for item in correct_text:
+        if not "шт." in item:
+            correct_with_quantity.append((item, 1, texts))
+        else:
+            quantity = int(re.findall(r"(\d*) шт.", item)[0])
+            name = " ".join(item.split()[:-2])
+            correct_with_quantity.append((name, quantity, texts))
+    coef = sashQUA(texts)
+    final = list(map(lambda x: (x[0], coef * x[1], x[2]), correct_with_quantity))
+    dataframe = pd.DataFrame({
+        "block": list(map(lambda x: x[0], final)),
+        "quantity": list(map(lambda x: x[1], final)),
+        "description": list(map(lambda x: x[2], final))}
+    )
+    return dataframe
 
 def to_excel(df, HEADER=False, START=1):
     output = io.BytesIO()
