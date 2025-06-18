@@ -114,7 +114,8 @@ def pdf_information_from_file(uploaded_file):
             quantity = int(re.findall(r"(\d*) шт.", item)[0])
             name = " ".join(item.split()[:-2])
             correct_with_quantity.append((name, quantity, texts))
-    coef = sashQUA(texts)
+    # coef = sashQUA(texts)
+    coef = 1
     final = list(map(lambda x: (x[0], coef * x[1], x[2]), correct_with_quantity))
     dataframe = pd.DataFrame({
         "block": list(map(lambda x: x[0], final)),
