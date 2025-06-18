@@ -100,7 +100,7 @@ def pdf_information_from_file(uploaded_file):
                 all_test.append(item)
     correct_text = []
     for item in all_test:
-        if "Гибкая вставка" in item or "Кассета фильтрующая" in item or "Каплеуловитель" in item or "Узел" in item:
+        if "Гибкая вставка" in item or "Кассета фильтрующая" in item or "Каплеуловитель" in item or "Узел" in item or "Хомут" in item:
             correct_text.append(item)
         elif "водяной" in item or "фреоновый" in item or "обратный" in item or "воздушный" in item:
             correct_text.append(" ".join(item.split()[2:]))
