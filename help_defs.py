@@ -77,7 +77,7 @@ def information_from_file(uploaded_file):
 
 def pdf_information_from_file(uploaded_file):
     all_text = ""
-
+    # print(uploaded_file.name)
     with pdfplumber.open(uploaded_file) as pdf:
         for page in pdf.pages:
             text = page.extract_text()
@@ -121,6 +121,7 @@ def pdf_information_from_file(uploaded_file):
         "quantity": list(map(lambda x: x[1], final)),
         "description": list(map(lambda x: x[2], final))}
     )
+    # print(dataframe)
     return dataframe
 
 def to_excel(df, HEADER=False, START=1):
