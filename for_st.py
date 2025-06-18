@@ -1,9 +1,9 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 import pandas as pd
-from help_defs import information_from_file, to_excel
+from help_defs import information_from_file, to_excel, pdf_information_from_file
 
-files = st.file_uploader("Upload your file", type=['docx'], accept_multiple_files=True)
+files = st.file_uploader("Upload your file", type=['docx', 'pdf'], accept_multiple_files=True)
 
 
 
@@ -13,7 +13,10 @@ def descr_merge(df, block):
 if files:
     all_files_info = []
     for file in files:
-        current_info = information_from_file(file)
+        if file.name.split(".")[1] =="pdf":
+            current_info = pdf_information_from_file(file)
+        else:
+            current_info = information_from_file(file)
         if current_info.empty:
             st.write("Error in file: ", file.name)
         else:
