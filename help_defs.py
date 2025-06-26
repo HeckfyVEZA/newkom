@@ -83,7 +83,11 @@ def pdf_information_from_file(uploaded_file):
             text = page.extract_text()
             if "ЛИСТ ТЕХНИЧЕСКОГО ПОДБОРА" in text:
                 texts = text
-                texts = texts.split("\n")[3].split()[3:-2][0]
+                # st.write(texts)
+                try:
+                    texts = texts.split("\n")[3].split()[3:-2][0]
+                except:
+                    pass
             all_text += f"\n{text}"
     all_text = all_text.split("\n")
     all_text = [
