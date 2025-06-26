@@ -87,7 +87,9 @@ def pdf_information_from_file(uploaded_file):
                 try:
                     texts = texts.split("\n")[3].split()[3:-2][0]
                 except:
-                    pass
+                    texts = texts.split("\n")
+                    texts = [im for im in texts if "ЛИСТ ТЕХНИЧЕСКОГО ПОДБОРА" in im][0]
+                    texts = texts.split("\n")[3].split()[3:-2][0]
             all_text += f"\n{text}"
     all_text = all_text.split("\n")
     all_text = [
